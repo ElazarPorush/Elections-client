@@ -1,3 +1,4 @@
+import { ICandidate } from "./candidate";
 import { IUser } from "./user";
 
 export enum DataStatus {
@@ -11,4 +12,10 @@ export interface userState {
     error: string | null,
     status: DataStatus,
     user: null | IUser
+}
+
+export interface candidatesState {
+    error: string | null,
+    status: DataStatus,
+    candidates: null | ICandidate[]
 }
