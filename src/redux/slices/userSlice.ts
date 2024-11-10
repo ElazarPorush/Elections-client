@@ -55,6 +55,18 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder: ActionReducerMapBuilder<userState>) => {
-        builder.addCase()
+        builder.addCase(fetchLogin.pending, (state, action) => {
+            state.status = DataStatus.LOADING
+            state.error = null
+            state.user = action.payload as unknown as IUser
+        }).addCase(fetchLogin.fulfilled, (state, action) => {
+            state.status = DataStatus.SUCCESS
+            state.error = null
+            state.user = action.payload as unknown as IUser
+        }).addCase(fetchLogin.rejected, (state, action) => {
+            state.status = DataStatus.LOADING
+            state.error = action.error as string
+            state.user = null
+        })
     }
 })
