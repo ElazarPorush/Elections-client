@@ -85,3 +85,51 @@ button:focus-visible {
   color: skyblue;
   font-weight: bold;
 }
+
+.login {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  background-color: rgba(43, 114, 98, 0.504);
+  height: 300px;
+  width: 300px;
+  /* border: 2px solid; */
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.login-form input {
+  height: 25px;
+  border-radius: 10px;
+}
+
+.vote-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  padding: 20px;
+}
+
+.vote-card {
+  width: 200px;
+  padding: 10px;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+}
+
+.vote-card img {
+  width: 180px;
+  height: 180px;
+}

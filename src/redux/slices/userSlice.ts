@@ -9,7 +9,7 @@ const initialState: userState = {
 }
 
 export const fetchLogin = createAsyncThunk('user/login',
-    async (user : {username: string, password: string}, thunkApi) => {
+    async (user: { username: string, password: string }, thunkApi) => {
         try {
             const res = await fetch("http://localhost:8200/api/users/login", {
                 method: "post",
@@ -20,9 +20,13 @@ export const fetchLogin = createAsyncThunk('user/login',
             })
             if (!res.ok) {
                 thunkApi.rejectWithValue("Can't login, please try again")
+                return
             }
             const data = await res.json()
-            thunkApi.fulfillWithValue(data)
+            localStorage.setItem("authorization", JSON.stringify(data.token))
+
+            // thunkApi.fulfillWithValue(data)
+            return data
         } catch (err) {
             thunkApi.rejectWithValue(err)
         }
@@ -30,7 +34,7 @@ export const fetchLogin = createAsyncThunk('user/login',
 )
 
 const fetchRegister = createAsyncThunk('user/register',
-    async (user : {username: string, password: string, isAdmin: boolean, }, thunkApi) => {
+    async (user: { username: string, password: string, isAdmin: boolean, }, thunkApi) => {
         try {
             const res = await fetch("http://localhost:8200/api/users/register", {
                 method: "post",
@@ -39,11 +43,12 @@ const fetchRegister = createAsyncThunk('user/register',
                 },
                 body: JSON.stringify(user)
             })
-            if (!res.ok) {
+            if (res.status !== 200) {
                 thunkApi.rejectWithValue("Can't register, please try again")
             }
             const data = await res.json()
-            thunkApi.fulfillWithValue(data)
+            // thunkApi.fulfillWithValue(data)
+            return data
         } catch (err) {
             thunkApi.rejectWithValue(err)
         }
@@ -53,7 +58,11 @@ const fetchRegister = createAsyncThunk('user/register',
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        logout: (state) => {
+            state.user = null;
+        }
+    },
     extraReducers: (builder: ActionReducerMapBuilder<userState>) => {
         builder.addCase(fetchLogin.pending, (state, action) => {
             state.status = DataStatus.LOADING
